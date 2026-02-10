@@ -1,0 +1,10 @@
+# Render service configuration - update `repo` with your GitHub repo URL
+services:
+  - type: web
+    name: data-cleaner
+    env: python
+    repo: "https://github.com/<GITHUB_USER>/<REPO>"
+    branch: main
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app

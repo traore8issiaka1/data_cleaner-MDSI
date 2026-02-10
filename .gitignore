@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+env/
+venv/
+.venv/
+ENV/
+
+# Editor configs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Packages
+*.egg-info/
+dist/
+build/
+
+# Django/Flask
+instance/
+.pytest_cache/
+
+# Env files
+.env
+.env.*
