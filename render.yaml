@@ -3,6 +3,7 @@ services:
   - type: web
     name: data-cleaner
     env: python
+    pythonVersion: "3.11"
     repo: "https://github.com/traore8issiaka1/data_cleaner-MDSI.git"
     branch: main
     plan: free
