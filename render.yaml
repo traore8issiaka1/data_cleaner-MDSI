@@ -1,9 +1,9 @@
-# Render service configuration - update `repo` with your GitHub repo URL
+# Render service configuration — repo mis à jour
 services:
   - type: web
     name: data-cleaner
     env: python
-    repo: "https://github.com/<GITHUB_USER>/<REPO>"
+    repo: "https://github.com/traore8issiaka1/data_cleaner-MDSI.git"
     branch: main
     plan: free
     buildCommand: pip install -r requirements.txt
