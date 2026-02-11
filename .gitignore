@@ -29,3 +29,9 @@ instance/
 # Env files
 .env
 .env.*
+
+# IDE/Local
+*.swp
+*.swo
+*~
+.DS_Store

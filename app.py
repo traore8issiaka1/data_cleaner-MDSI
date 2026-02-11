@@ -1,5 +1,6 @@
 from flask import Flask, request, send_file, render_template
 import io
+import os
 import pandas as pd
 from processing import *
 
@@ -32,5 +33,5 @@ def clean():
         return f"Erreur : {str(e)}", 400
 
 if __name__ == "__main__":
-    print(" Serveur Flask lancé...")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
