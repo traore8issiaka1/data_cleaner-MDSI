@@ -6,42 +6,84 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #fff;
+    color: #333;
+    margin: 0;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background: #ff6600;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 20px;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-brand {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.nav-links a.active {
+    background: rgba(255,255,255,0.2);
 }
 
 .container {
     width: 100%;
-    max-width: 600px;
+    max-width: none;
+    flex: 1;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 header {
     text-align: center;
-    color: white;
-    margin-bottom: 40px;
+    color: #ff6600;
+    margin-bottom: 30px;
 }
 
 header h1 {
-    font-size: 3em;
+    font-size: 2.8em;
     margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 header .subtitle {
-    font-size: 1.2em;
+    font-size: 1.1em;
     opacity: 0.9;
 }
 
 .card {
-    background: white;
-    border-radius: 12px;
+    background: #fff;
+    /* no radius or shadow for full‑page look */
+    border-radius: 0;
     padding: 40px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    /*box-shadow: none;*/
     margin-bottom: 30px;
+    animation: slideIn 0.5s ease-out;
+    width: 100%;
 }
 
 .card h2 {
@@ -103,16 +145,33 @@ header .subtitle {
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 6px 20px rgba(255, 102, 0, 0.6);
 }
 
-.btn-primary:active {
-    transform: translateY(0);
+.btn-secondary {
+    padding: 14px;
+    background: #eee;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
-.btn-primary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+.btn-secondary:hover {
+    background: #ddd;
+}
+
+.buttons-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.hidden {
+    display: none;
 }
 
 .status {
@@ -156,13 +215,125 @@ header .subtitle {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: #ff6600;
     width: 0%;
     animation: progress 2s ease-in-out infinite;
 }
 
-.progress-bar.hidden {
-    display: none;
+.info-section {
+    background: white;
+    border-radius: 0;
+    padding: 30px;
+    /* no shadow in full width layout */
+    box-shadow: none;
+    margin-bottom: 30px;
+}
+
+.info-section h3 {
+    color: #ff6600;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.info-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.info-section li {
+    color: #555;
+    padding: 10px 0;
+    padding-left: 30px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.info-section li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #ff6600;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+/* table preview */
+.info-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    display: block;
+    overflow-x: auto;
+    border: none;
+}
+
+.info-section th, .info-section td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.info-section tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.info-section tr:hover {
+    background-color: #f1f1f1;
+}
+
+footer {
+    text-align: center;
+    color: #777;
+    margin-top: 30px;
+    font-size: 0.9em;
+    opacity: 0.9;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .card h2 {
+        font-size: 1.2em;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes progress {
+    0% {
+        width: 0%;
+    }
+    50% {
+        width: 100%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+.card, .info-section {
+    animation: slideIn 0.5s ease-out;
 }
 
 @keyframes progress {

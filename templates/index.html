@@ -7,10 +7,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
+    <nav class="navbar">
+        <div class="nav-brand">Data&nbsp;Cleaner</div>
+        <ul class="nav-links">
+            <li><a href="#upload">Accueil</a></li>
+            <li><a href="#statsSection">Statistiques</a></li>
+            <li><a href="#previewSection">Aperçu</a></li>
+            <li><a href="#help">Aide</a></li>
+        </ul>
+    </nav>
+
+    <div class="container" id="upload">
         <header>
             <h1> Data Cleaner</h1>
-            <p class="subtitle">Nettoyez vos données facilement</p>
+            <p class="subtitle">Nettoyez vos données comme un expert</p>
         </header>
 
         <main>
@@ -23,8 +33,16 @@
                         <p class="file-info">Formats acceptés : CSV, XLSX, XLS, JSON, XML</p>
                     </div>
 
-                    <div class="form-group">
-                        <button type="submit" class="btn-primary"> Télécharger et nettoyer</button>
+                    <div class="form-group buttons-row">
+                        <button id="cleanBtn" type="button" class="btn-primary">Nettoyer</button>
+                        <button id="showBtn" type="button" class="btn-secondary" disabled>Afficher</button>
+                        <select id="formatSelect" disabled>
+                            <option value="csv" selected>CSV</option>
+                            <option value="xlsx">XLSX</option>
+                            <option value="json">JSON</option>
+                            <option value="xml">XML</option>
+                        </select>
+                        <button id="downloadBtn" type="button" class="btn-primary" disabled>Télécharger</button>
                     </div>
                 </form>
 
@@ -32,16 +50,27 @@
                 <div id="progressBar" class="progress-bar hidden">
                     <div class="progress-fill"></div>
                 </div>
+
+                <section id="statsSection" class="info-section hidden">
+                    <h3> Statistiques du traitement</h3>
+                    <div id="statsList"></div>
+                </section>
+
+                <section id="previewSection" class="info-section hidden">
+                    <h3> Aperçu des données nettoyées</h3>
+                    <div id="preview"></div>
+                </section>
             </div>
 
-            <div class="info-section">
-                <h3> Traitements appliqués :</h3>
+            <div class="info-section" id="help">
+                <h3>Aide et informations</h3>
+                <p>Cet outil permet de :</p>
                 <ul>
-                    <li><strong>Valeurs manquantes</strong> : Remplissage par la moyenne</li>
-                    <li><strong>Doublons</strong> : Suppression automatique</li>
-                    <li><strong>Valeurs aberrantes</strong> : Détection par IQR</li>
-                    <li><strong>Normalisation</strong> : Mise à l'échelle 0-1</li>
+                    <li>Nettoyer automatiquement un jeu de données.</li>
+                    <li>Afficher des statistiques et un aperçu avant téléchargement.</li>
+                    <li>Exporter dans plusieurs formats.</li>
                 </ul>
+                <p>Utilisez la barre de navigation en haut pour parcourir les sections.</p>
             </div>
         </main>
 
