@@ -30,6 +30,9 @@ instance/
 .env
 .env.*
 
+# Local database
+*.db
+
 # IDE/Local
 *.swp
 *.swo

@@ -2,7 +2,9 @@ import io
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
+from flask import Flask, request, jsonify
 
+app = Flask(__name__)
 
 def read_file(file_stream, filename):
     """Charge un fichier en DataFrame quel que soit le format supporté."""
@@ -29,7 +31,7 @@ def read_file(file_stream, filename):
 def handle_missing(df, strategy='mean'):
     """Retourne une copie du DataFrame avec les valeurs manquantes traitées.
 
-    La stratégie peut être : 'drop', 'mean', 'median', 'mode' ou autre (aucune action).
+    La stratégie peut être : 'drop', 'mean', 'median', 'mode', 'ffill', 'bfill', 'const:' ou autre (aucune action).
     """
     if strategy == 'drop':
         return df.dropna()
@@ -39,6 +41,15 @@ def handle_missing(df, strategy='mean'):
         return df.fillna(df.median(numeric_only=True))
     elif strategy == 'mode':
         return df.fillna(df.mode().iloc[0])
+    elif strategy == 'ffill':
+        return df.fillna(method='ffill')
+    elif strategy == 'bfill':
+        return df.fillna(method='bfill')
+    elif strategy.startswith('const:'):
+        val = strategy.split(':',1)[1]
+        return df.fillna(val)
+    elif strategy == 'interpolate':
+        return df.interpolate()
     else:
         return df
 
@@ -133,9 +144,22 @@ def export_dataframe(df, fmt: str):
         buf.write(df.to_json(orient='records', date_format='iso').encode('utf-8'))
         mimetype = 'application/json'
     elif fmt_lower == 'xml':
-        buf.write(df.to_xml(index=False).encode('utf-8'))
+        try:
+            xml_text = df.to_xml(index=False, parser='lxml')
+        except Exception:
+            xml_text = df.to_xml(index=False, parser='etree')
+        buf.write(xml_text.encode('utf-8'))
         mimetype = 'application/xml'
     else:
         raise ValueError(f"Format d'export inconnu: {fmt}")
     buf.seek(0)
     return buf, mimetype
+
+
+@app.route('/process', methods=['POST'])
+def process():
+    file = request.files['file']
+    df = read_file(file.stream, file.filename)
+    strategy = request.form.get('missing_strategy', 'mean')
+    df_clean, stats = clean_dataframe(df, missing_strategy=strategy)
+    return jsonify({'df_clean': df_clean.to_json(), 'stats': stats})

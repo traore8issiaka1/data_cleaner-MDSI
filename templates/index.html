@@ -7,75 +7,117 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">Data&nbsp;Cleaner</div>
-        <ul class="nav-links">
-            <li><a href="#upload">Accueil</a></li>
-            <li><a href="#statsSection">Statistiques</a></li>
-            <li><a href="#previewSection">Aperçu</a></li>
-            <li><a href="#help">Aide</a></li>
-        </ul>
-    </nav>
-
-    <div class="container" id="upload">
+    <div class="container">
         <header>
-            <h1> Data Cleaner</h1>
-            <p class="subtitle">Nettoyez vos données comme un expert</p>
+            <h1>Data Cleaner</h1>
+            <p class="subtitle">Authentification, nettoyage, apercu, export multi-format, historique</p>
+            <div class="user-bar">
+                <span id="userBadge" class="badge hidden"></span>
+                <button id="logoutBtn" class="btn-secondary small hidden" type="button">Se deconnecter</button>
+            </div>
         </header>
 
         <main>
-            <div class="card">
-                <h2>Télécharger un fichier</h2>
-                <form id="uploadForm" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="fileInput">Sélectionnez un fichier :</label>
-                        <input type="file" id="fileInput" name="file" accept=".csv,.xlsx,.xls,.json,.xml" required>
-                        <p class="file-info">Formats acceptés : CSV, XLSX, XLS, JSON, XML</p>
-                    </div>
+            <section class="card" id="authSection">
+                <h2>Connexion / Inscription</h2>
+                <div class="form-group">
+                    <label for="authUsername">Nom utilisateur</label>
+                    <input id="authUsername" type="text" placeholder="votre nom utilisateur">
+                </div>
+                <div class="form-group">
+                    <label for="authPassword">Mot de passe</label>
+                    <input id="authPassword" type="password" placeholder="minimum 6 caracteres">
+                </div>
+                <div class="actions-row">
+                    <button id="loginBtn" class="btn-primary" type="button">Se connecter</button>
+                    <button id="registerBtn" class="btn-secondary" type="button">S inscrire</button>
+                </div>
+                <div id="authStatus" class="status"></div>
+            </section>
 
-                    <div class="form-group buttons-row">
-                        <button id="cleanBtn" type="button" class="btn-primary">Nettoyer</button>
-                        <button id="showBtn" type="button" class="btn-secondary" disabled>Afficher</button>
-                        <select id="formatSelect" disabled>
+            <section id="appSection" class="hidden">
+                <section class="card">
+                    <h2>Charger et nettoyer un fichier</h2>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="fileInput">Selectionnez un fichier :</label>
+                            <input type="file" id="fileInput" name="file" accept=".csv,.xlsx,.xls,.json,.xml" required>
+                            <p class="file-info">Formats acceptes : CSV, XLSX, XLS, JSON, XML</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="missingSelect">Traitement des valeurs manquantes :</label>
+                            <select id="missingSelect" name="missing_strategy">
+                                <option value="mean" selected>Moyenne (par defaut)</option>
+                                <option value="median">Mediane</option>
+                                <option value="mode">Mode</option>
+                                <option value="drop">Supprimer lignes</option>
+                                <option value="const">Constante personnalisee</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group hidden" id="constGroup">
+                            <label for="constInput">Constante a utiliser :</label>
+                            <input type="text" id="constInput" name="const_value" placeholder="par ex. 0 ou inconnu">
+                        </div>
+
+                        <div class="actions-row">
+                            <button type="submit" class="btn-primary" id="cleanBtn">Nettoyer le fichier</button>
+                            <button type="button" class="btn-secondary" id="showBtn" disabled>Afficher le fichier traite</button>
+                        </div>
+                    </form>
+
+                    <div class="form-group hidden" id="downloadGroup">
+                        <label for="formatSelect">Format de telechargement :</label>
+                        <select id="formatSelect">
                             <option value="csv" selected>CSV</option>
                             <option value="xlsx">XLSX</option>
                             <option value="json">JSON</option>
                             <option value="xml">XML</option>
                         </select>
-                        <button id="downloadBtn" type="button" class="btn-primary" disabled>Télécharger</button>
+                        <button type="button" class="btn-download" id="downloadBtn">Telecharger le fichier traite</button>
                     </div>
-                </form>
 
-                <div id="status" class="status"></div>
-                <div id="progressBar" class="progress-bar hidden">
-                    <div class="progress-fill"></div>
-                </div>
-
-                <section id="statsSection" class="info-section hidden">
-                    <h3> Statistiques du traitement</h3>
-                    <div id="statsList"></div>
+                    <div id="status" class="status"></div>
+                    <div id="progressBar" class="progress-bar hidden">
+                        <div class="progress-fill"></div>
+                    </div>
                 </section>
 
-                <section id="previewSection" class="info-section hidden">
-                    <h3> Aperçu des données nettoyées</h3>
-                    <div id="preview"></div>
+                <section class="info-section hidden" id="statsSection">
+                    <h3>Statistiques du traitement</h3>
+                    <div class="stats-grid" id="statsGrid"></div>
+                    <div class="quality-wrap">
+                        <div class="quality-line">
+                            <span>Score de qualite</span>
+                            <strong id="qualityScoreValue">0%</strong>
+                        </div>
+                        <div class="quality-bar">
+                            <div class="quality-fill" id="qualityFill"></div>
+                        </div>
+                    </div>
                 </section>
-            </div>
 
-            <div class="info-section" id="help">
-                <h3>Aide et informations</h3>
-                <p>Cet outil permet de :</p>
-                <ul>
-                    <li>Nettoyer automatiquement un jeu de données.</li>
-                    <li>Afficher des statistiques et un aperçu avant téléchargement.</li>
-                    <li>Exporter dans plusieurs formats.</li>
-                </ul>
-                <p>Utilisez la barre de navigation en haut pour parcourir les sections.</p>
-            </div>
+                <section class="info-section hidden" id="previewSection">
+                    <h3>Apercu du fichier traite</h3>
+                    <p id="previewMeta" class="preview-meta"></p>
+                    <div class="table-wrap">
+                        <table id="previewTable"></table>
+                    </div>
+                </section>
+
+                <section class="info-section" id="historySection">
+                    <h3>Historique des fichiers traites</h3>
+                    <p id="historyMeta" class="preview-meta"></p>
+                    <div class="table-wrap">
+                        <table id="historyTable"></table>
+                    </div>
+                </section>
+            </section>
         </main>
 
         <footer>
-            <p>&copy; 2025 Data Cleaner - Nettoyez vos données </p>
+            <p>&copy; 2026 Data Cleaner</p>
         </footer>
     </div>
 
