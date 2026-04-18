@@ -15,21 +15,15 @@ Avant toute analyse ou modélisation, il est nécessaire de passer par une phase
 
 ## Problématique
 
-Comment transformer des données tels que CSV brutes en un format optimisé, propre et exploitable pour l’analyse ?
+Comment transformer des données brutes en un format optimisé, propre et exploitable pour l’analyse ?
 
 ## Technologies utilisées
 
 - Python  
 - Pandas  
-- PySpark  
+- Numpy 
 
-##  Données
-
-- Format initial : CSV  
-- Données télécom (trafic réseau)  
-- Données brutes non nettoyées  
-
-## 🚀 Méthodologie
+## Méthodologie
 
 1. Chargement des données CSV  
 2. Nettoyage :
