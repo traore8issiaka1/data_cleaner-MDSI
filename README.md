@@ -1,53 +1,34 @@
-#  Nettoyage et transformation de données télécom
+#  Data Cleaner MDSI
+
+Application web de nettoyage et de normalisation de données développée en Python dans le cadre du Master Data Science & Intelligence Artificielle.
 
 ##  Objectif
 
-Ce projet a pour objectif de nettoyer et transformer des données télécom brutes afin de les rendre exploitables pour l’analyse et les traitements Big Data.
+Concevoir une API capable de traiter automatiquement les principales problématiques de qualité des données :
+-Détection des valeurs manquantes
+-Élimination des doublons
+-Correction des anomalies
+-Normalisation des données
 
-##  Contexte
-
-Les données télécom sont souvent :
-- volumineuses  
-- bruitées  
-- incohérentes  
-
-Avant toute analyse ou modélisation, il est nécessaire de passer par une phase de nettoyage et de transformation.
-
-## Problématique
-
-Comment transformer des données brutes en un format optimisé, propre et exploitable pour l’analyse ?
+##  Fonctionnalités Principales
+-Authentification Utilisateur
+-Import Multiformat
+-Nettoyage Automatique
+-Statistiques de Qualité
+-Aperçu des Données
+-Export Flexibles
+-Historique Personnel
 
 ## Technologies utilisées
 
-- Python  
+- Python
+- Flask  
 - Pandas  
-- Numpy 
+- Numpy
+- HTML/CSS
+- JavaScript 
 
-## Méthodologie
-
-1. Chargement des données CSV  
-2. Nettoyage :
-   - suppression des valeurs nulles  
-   - correction des types  
-   - suppression des doublons  
-3. Transformation :
-   - normalisation des données  
-   - conversion vers format Parquet  
-4. Compression :
-   - utilisation de Snappy  
-
----
-
-## 📊 Résultats
-
-- Réduction de la taille des données  
-- Amélioration de la qualité des données  
-- Format optimisé pour le traitement Big Data  
-- Données prêtes pour analyse ou machine learning  
-
----
-
-## ▶️ Exécution
+##  Exécution
 
 ```bash
 # Installation des dépendances
